@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="pl-PL">
+<head>
+	<title>Dokumentacja projekt 1</title>
+	<meta charset = "utf-8">
+<body>
+<p>Dokumentacja zawiera informacje o aplikacji oraz krótki opis użytych funkcji.</p>
+<p>Aplikacja ma za zadanie obliczyć najkrótsze ścieżki od konkretnego wierzchołka grafu.<br/>
+Ekran podzielony jest na dwie główne części - zakładki oraz część z grafem.
+W pierwszej zakładce "Info" znajduje się krótki opis algorytmu, pseudokod, zastosowania oraz uproszczony opis korzystania z aplikacji. W drugiej zakładce "Tablice" po naciśnięciu przycisków "Rysuj tablicę krawędzi" oraz "Szukaj najkrótszej ścieżki" pojawiają sie tablice z informacjami, odpowiednio: tablica z krawędziami grafu (numery wierzchołków, które łączy dana krawędź) oraz ich wagami i tablica zawierająca numer wierzchołka, informację czy został rozpatrzony, odległość od źródła oraz poprzedni wierzchołek. W tej zakładce, gdy algorytm kończy swoje działanie, pojawiają się wypisane ścieżki dla każdego wierzchołka.<br/>
+W drugiej części znajdują się pola do wypełnienia, przyciski do uruchomienia funkcji oraz canvas, na którym zostanie wyświetlony graf. Podczas wykonywania się algorytmu na grafie wyróżniane są wierzchołki i krawędzie, które są obecnie sprawdzane (Kolorem czerwonym - wierzchołki oraz krawędzie, które poprawiają rozwiązanie, kolorem niebieskim - krawędzie, które rozwiązania nie poprawiają. Krawędzie, którymi "przyszliśmy" do wierzchołka nie są brane pod uwagę!). </p>
+
+<b>opisy funkcji w pliku projekt.html :</b><br/>
+<p>walidacjaDanychWierzcholki()<br/>
+funkcja sprawdza czy liczba wierzchołków wynosi co najmniej 2, jeśli nie- pojawia się odpowiedni komunikat, jeśli tak to wywołuje funkcję sendRequest()</p>
+
+<p>walidacjaDanychStart()<br/>
+funkcja sprawdza czy wierzchołek podany jako źródło należy do grafu, jeśli nie- pojawia się odpowiedni komunikat, jeśli tak to wywołuje funkcję Dijkstra()</p>
+
+<b>opisy funkcji w pliku projekt.js :</b><br/>
+<p>wyczyscDiv(elementID)<br/>
+czyści element, który został przekazany jako argument</p>
+
+<p>rysujTabInfo(tabStatus,tabDlugosc,tabPoprzednik)<br/>
+rysuje tablicę, która zawiera informacje o długości ścieżki od każdego wierzchołka, o poprzednim wierzchołku oraz jego statusie (czy został juz sprawdzony), w zakładce "Tablice"</p>
+
+<p>rysujTabKrawedzi()<br/>
+rysuje tablice zawierającą informacje o krawędziach - wagę każdej z krawędzi oraz które wierzchołki łączy, tablica pojawia się w zakładce "Tablice"</p>
+
+<p>wyroznijKrawedz(w1,w2,kolor)<br/>
+funkcja zaznacza na grafie krawędź miedzy wierzchołkami w1 i w2 na podany kolor</p>
+
+<p>wyroznijPunkt(x,y)<br/>
+funkcja zaznacza na grafie wierzchołek o współrzędnych x i y na czerwono</p>
+
+<p>dzwiek()<br/>
+funkcja odtwarza dźwięk (wywołana w momencie zakończenia algorytmu)</p>
+
+<p>Dijkstra()<br/>
+funkcja przygotowująca do algorytmu - czyści odpowiednie elementy, pobiera informacje o czasie miedzy kolejnymi krokami animacji i wywołuje funkcje główną</p>
+
+<p>wypelnijTabliceKoncowa(tabStatus,tabDlugosc,tabPoprzednik)<br/>
+funkcja przekazuje informacje przetwarzane podczas algorytmu do elementu graf.tablicaKoncowa</p>
+
+<p>najkrotszaSciezka(v)<br/>
+funkcja główna, obliczająca najkrótsze ścieżki od podanego wierzchołka do pozostałych oraz ich długości, a następnie wypisująca informacje na stronę główną</p>
+
+<p>utworzMacierz(wagi,w)<br/>
+funkcja tworząca macierz z informacjami o krawędziach i ich wagach</p>
+
+<p>sendRequest()<br/>
+funkcja wysyłająca dane odczytane z formularza do pliku projekt.py</p>
+
+<p>handleResponse()<br/>
+funkcja odczytująca dane, wywołująca funkcje do rysowania grafu oraz przepisująca dane do obiektu "graf"</p>
+
+<p>rysujGraf(liczbaWierzcholkow,punkty,krawedzie,wagi)<br/>
+funkcja wywołująca metody rysujKolo, rysujLinie i rysujPunkt, które tworzą graf na elemencie canvas</p>
+
+<p>rysujKolo(x,y,r)<br/>
+funkcja rysująca pomocnicze kolo (niewidoczne na canvas), na którym rysowane będą wierzchołki grafu</p>
+
+<p>rysujPunkt(x,y,dlugosc,kat,numer,punkty)<br/>
+funkcja rysująca pojedynczy wierzchołek grafu</p>
+
+<p>rysujLinie(liczbaWierzcholkow,punkty,krawedzie,wagi)<br/>
+funkcja rysująca wszystkie krawędzie grafu</p>
+
+<p>sprawdzKrawedz(krawedzie,w1,w2,dlugosc)<br/>
+funkcja sprawdzająca, czy podana krawędź istnieje juz na grafie</p>
+
+<p>rand(min,max)<br/>
+funkcja zwracająca losowa wartość typu int z przedziału &lt;min,max)</p>
+
+<p>zakladki(e, tab)<br/>
+funkcja otwierająca zakładki po naciśnięciu przycisku Info lub Tablice</p>
+
+<p>otworzZakladke(tab)<br/>
+funkcja otwierająca zakładki (wywoływana w funkcjach, bez eventu)</p>
+
+<p>odtworzGraf()<br/>
+funkcja wywołująca inne funkcje (odtworzPunkty oraz odtworzKrawedzie), rysująca oryginalny graf</p>
+  
+<p>odtworzPunkty()<br/>
+funkcja rysująca wierzchołki na podstawie danych z obiektu graf </p>
+
+<p>odtworzKrawedzie()<br/>
+funkcja rysująca krawędzie na podstawie danych z obiektu graf </p>
+
+<p>Na potrzeby aplikacji został stworzony obiekt graf - przechowujacy najwazniejsze informacje dotyczace grafu (dokladny opis w pliku projekt.js)</p>
+</body>
+</html>

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="pl-PL">
+<head> 
+	<title>Projekt_1 TI</title> 
+	<meta charset = "utf-8">
+	<link rel="stylesheet" type="text/css" href="style.css">
+	 <script src="projekt.js"></script>	
+</head>
+<body>
+	<div id="tytul">
+		Algorytm Dijkstry - szukanie najkrótszej ścieżki
+	</div>
+
+	<nav class="tab">
+		<button class = "tablinks" id ="informacje" onclick="zakladki(event,'info')"> Info </button>
+		<button class = "tablinks" id ="tablica" onclick="zakladki(event,'infoTablice')"> Tablice </button>
+	</nav>
+	
+	<div id="info">
+		<p><strong>Algorytm Dijkstry</strong> jest algorytmem zachłannym, który służy do znalezienia najkrótszej ścieżki między określonym wierzchołkiem (tzw. źródłem) a pozostałymi wierzchołkami grafu. Aby algorytm działał poprawnie, wszystkie krawędzie w grafie muszą mieć nieujemne wagi.</p><br/>
+
+		<h3>Pseudokod</h3>
+		<h4>Dijkstra(G,w,s):</h4> 
+   		<p class = "pseudokod" style="text-indent: 10px; ">dla każdego wierzchołka v w V[G] wykonaj</p>
+      			<p class = "pseudokod" style="text-indent: 30px; ">d[v] := nieskończoność</p>
+      			<p class = "pseudokod" style="text-indent: 30px; ">poprzednik[v] := niezdefiniowane</p>
+   		<p class = "pseudokod" style="text-indent: 10px; ">d[s] := 0</p>
+   		<p class = "pseudokod" style="text-indent: 10px; ">Q := V</p>
+   		<p class = "pseudokod" style="text-indent: 10px; ">dopóki Q niepuste wykonaj</p>
+      			<p class = "pseudokod" style="text-indent: 30px; ">u := Zdejmij_Min(Q)</p>
+      			<p class = "pseudokod" style="text-indent: 30px; ">dla każdego wierzchołka v – sąsiada u wykonaj</p>
+         			<p class = "pseudokod" style="text-indent: 50px; ">jeżeli d[v] > d[u] + w(u, v) to</p>
+            				<p class = "pseudokod" style="text-indent: 70px; ">d[v] := d[u] + w(u, v)</p>
+        	   			<p class = "pseudokod" style="text-indent: 70px; ">poprzednik[v] := u</p>
+        				<p class = "pseudokod" style="text-indent: 70px; ">Dodaj(Q, v)</p>
+
+	<cite>pl.wikipedia.org/wiki/Algorytm_Dijkstry#Pseudokod</cite><br/><br/>
+	<strong>Oznaczenia:</strong><br/>
+	V - zbiór wierzchołków<br/>
+	Q - kolejka priorytetowa wierzchołków<br/>
+	d - tablica odległości<br/>
+	w - tablica wag<br/>
+	poprzednik - tablica poprzedników<br/>
+	u - wierzchołek usunięty z kolejki<br/>
+	v - sąsiad wierzchołka u<br/>
+
+	<h3>Zastosowanie</h3>
+	<ul>
+		<li>trasowanie w sieciach komputerowych np.OSPF</li>
+		<li>planowanie tras w transporcie (poszukiwanie najkrótszych połączeń między miastami)</li>
+	</ul>
+
+	<h3>Jak korzystać z aplikacji</h3>
+	<p>Na początku podajemy ile wierzchołków ma mieć graf. Następnie klikamy przycisk <strong>Rysuj graf</strong>. Kolejnym krokiem jet wybranie źródła. Aby uruchomić algorytm, wciskamy przycisk <strong>Szukaj najkrótszej ścieżki</strong>. W zakładce <b><i>Tablice</i></b> pojawi się tablica zawierająca odległość każdego wierzchołka od źródła, informację o poprzedniku oraz o stanie (czy dany wierzchołek został już rozpatrzony). Kolorem czerwonym będą zaznaczane zmiany, jakie zaszły w danym kroku algorytmu, zarówno na grafie jak i w tabeli. Ponadto, na grafie zaznaczane będą kolorem niebieskim ścieżki, które są dostępne w danym kroku, ale nie poprawiają one rozwiązania. </p>
+	<p>Istnieje również możliwość zdecydowania, jak szybko mają się pojawiać kolejne etapy animacji (domyślnie jest to 3 sekundy).</p>
+	<p>Zalecane jest tworzenie grafów stworzonych z maksymalnie 8-10 wierzchołków. Większe grafy mogą być nieczytelne z powodu dużej ilości krawędzi. Jeśli wagi na grafie są niewidoczne, można skorzystać z przycisku <strong>Rysuj tablicę krawędzi</strong>, który wyświetli w zakładce <b><i>Tablice</i></b> listę krawędzi oraz ich wagi.</p> 
+
+	</div>
+
+	<div id = "infoTablice">
+		<audio id = "sukces" src="fanfary.wav"> </audio>
+		<div id = "tabKrawedzie"> <p>Po naciśnięciu przycisku <strong>Rysuj tablicę krawędzi</strong> w tym miejscu pojawi się tablica z krawędziami grafu oraz ich wagami</p></div><br/><br/>
+		<div id = "tabDijkstra"> <p>Po naciśnięciu przycisku <strong>Szukaj najkrótszej ścieżki</strong> w tym miejscu pojawi się tablica pokazująca zmiany zachodzące w tracie działania algorytmu </p></div>
+		<div id = "sciezki"> </div>
+	</div>
+	<div id="dane">
+			Podaj liczbę wierzchołków:
+			<input type="number" id = "wierzcholki" min="2">
+			<button type = "submit" onclick="walidacjaDanychWierzcholki()">Rysuj graf</button><br/>
+			<p class="error" id="ans" style="color:red;"> </p>
+		<canvas id="canvas" width="600" height = "600">
+		</canvas>
+		<br/>
+
+		Podaj wierzchołek, dla którego szukamy najkrótszej ścieżki do pozostałych wierzchołków
+		<input type="number" id="start" min = "0"> <br/>
+		Wybierz szybkość animacji (ilość sekund pomiędzy kolejnymi etapami)
+		<select id="szybkosc">
+			<option value="1">1</option>
+			<option value="2">2</option>
+			<option value="3" selected="selected">3</option>
+			<option value="4">4</option>
+			<option value="5">5</option>
+		</select>
+
+		
+		<br/><br/>
+		<button class="przyciskTab" type="submit" onclick="walidacjaDanychStart()"> Szukaj najkrótszej ścieżki </button>
+		<button class="przyciskTab" type="submit" onclick="rysujTabKrawedzi()">Rysuj tablicę krawędzi</button>
+		<p class="error" id="error"></p>
+	</div>
+	
+	<script>
+		info.style.display = "block";
+		infoTablice.style.display = "none";
+
+		function walidacjaDanychWierzcholki()
+		{
+			var w = document.getElementById("wierzcholki").value;
+			var wiadomosc = document.getElementById("ans");
+			if (w<2)
+			{
+				wiadomosc.innerHTML = "Graf musi mieć co najmniej 2 wierzchołki!";
+			}	
+			else 
+			{
+				wiadomosc.innerHTML = "";
+				sendRequest();
+			}
+		}
+
+		function walidacjaDanychStart()
+		{
+			var ileWierzcholkow = document.getElementById("wierzcholki").value;
+			var wierzcholekStartowy = document.getElementById("start").value;
+                        var wiadomosc = document.getElementById("error");
+                        if (wierzcholekStartowy < 0 || wierzcholekStartowy > ileWierzcholkow-1 || wierzcholekStartowy=="") 
+                        {
+                                wiadomosc.innerHTML = "Musisz wybrać wierzchołek który należy do grafu!";
+                        }
+                        else
+			{	
+				wiadomosc.innerHTML = "";
+                                Dijkstra();
+			}
+		}
+
+	</script>
+</body>
+</html>
+
